@@ -1,9 +1,8 @@
 class Drawer {
 
-  constructor(context, windowWidth, windowHeight) {
+  constructor(canvas, context) {
     this.context = context;
-    this.windowWidth = windowWidth;
-    this.windowHeight = windowHeight;
+    this.canvas = canvas
   }
 
   drawDots(array, color) {
@@ -23,13 +22,13 @@ class Drawer {
     // draw grid lines
     context.strokeStyle = 'grey';
     context.lineWidth = 1;
-    for (let i = 0; i <= dotCanvas.width; i += 100) {
+    for (let i = 0; i <= this.canvas.width; i += 100) {
       context.moveTo(i, 0);
-      context.lineTo(i, dotCanvas.height);
+      context.lineTo(i, this.canvas.height);
     }
-    for (let i = 0; i <= dotCanvas.height; i += 100) {
+    for (let i = 0; i <= this.canvas.height; i += 100) {
       context.moveTo(0, i);
-      context.lineTo(dotCanvas.width, i);
+      context.lineTo(this.canvas.width, i);
     }
     context.stroke();
   }

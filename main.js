@@ -1,7 +1,7 @@
 import { Drawer } from "./modules/Drawer.js";
 import { DotGenerator } from "./modules/DotGenerator.js";
 
-let numDots = 50;
+let numDots = 100;
 let redDotArray = [];
 let blueDotArray = [];
 
@@ -23,8 +23,11 @@ const drawer = new Drawer(dotCanvas, lineCanvas);
 const dotGenerator = new DotGenerator(dotCanvas);
 
 dotGenerator.generateRandomCoordinates(redDotArray, numDots, "red");
-// generateRandomCoordinates(blueDotArray, numDots, "blue");
+dotGenerator.generateRandomCoordinates(blueDotArray, numDots, "blue");
 drawer.drawDots(redDotArray);
+drawer.drawDots(blueDotArray);
+
+let dotArray = redDotArray.concat(blueDotArray); 
 
 // set up mouse event listeners
 var timeout;
@@ -35,7 +38,7 @@ lineCanvas.addEventListener("mousemove", e => {
             timeout = null;
             let mouseX = e.pageX;
             let mouseY = e.pageY;
-            drawer.drawKNearestLines(3, redDotArray, mouseX, mouseY); 
+            drawer.drawKNearestLines(3, dotArray, mouseX, mouseY); 
             // console.log(mouseX, mouseY); 
         }, 16);
     }

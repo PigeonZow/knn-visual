@@ -44,13 +44,14 @@ class Drawer {
     // draw the lines
     this.lineContext.clearRect(0, 0, this.lineCanvas.width, this.lineCanvas.height);
     this.lineContext.lineWidth = 2;
-    this.lineContext.beginPath();
+
     for (let i = 0; i < drawArray.length; i++) {
+      this.lineContext.beginPath();
       this.lineContext.strokeStyle = drawArray[i].color;
       this.lineContext.moveTo(mouseX, mouseY);
       this.lineContext.lineTo(drawArray[i].x, drawArray[i].y);
+      this.lineContext.stroke();
     }
-    this.lineContext.stroke();
   }
 
   drawCircleIndicator() {

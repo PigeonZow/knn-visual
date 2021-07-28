@@ -1,18 +1,19 @@
 class DotGenerator {
 
-    constructor(canvas, context) {
+    constructor(canvas) {
         this.canvas = canvas;
-        this.context = context;
+        this.context = canvas.context;
     }
 
-    // TODO: Need to generate data that is suitable for KNN, not necessarily random 
-    generateRandomCoordinates(array, dots) {
-        let x, y;
-
+    // Note: Random dots aren't that suitable for KNN analysis
+    generateRandomCoordinates(array, dots, color) {
         for (let i = 0; i < dots; i++) {
-            x = Math.floor(Math.random() * this.canvas.width);
-            y = Math.floor(Math.random() * this.canvas.height);
-            array.push(x + "," + y);
+            let dot = {
+                x: Math.floor(Math.random() * this.canvas.width),
+                y: Math.floor(Math.random() * this.canvas.height),
+                color: color
+            }
+            array.push(dot);
         }
     }
   

@@ -1,36 +1,73 @@
 class Drawer {
 
-  constructor(canvas, context) {
-    this.context = context;
-    this.canvas = canvas
+  constructor(dotCanvas, lineCanvas) {
+    this.dotCanvas = dotCanvas;
+    this.lineCanvas = lineCanvas;
+
+    this.dotContext = dotCanvas.getContext('2d');
+    this.lineContext = lineCanvas.getContext('2d');
   }
 
-  drawDots(array, color) {
-    let x, y;
-  
+  drawDots(array) { 
     for (let i = 0; i < array.length; i++) {
-      [x, y] = array[i].split(',');
-      this.context.fillStyle = color;
-      this.context.beginPath();
-      this.context.arc(x, y, 5, 0, 2*Math.PI);
-      this.context.fill();
+      let dot = array[i]
+      this.dotContext.fillStyle = dot.color;
+      this.dotContext.beginPath();
+      this.dotContext.arc(dot.x, dot.y, 5, 0, 2*Math.PI);
+      this.dotContext.fill();
     }
   
+  }
+
+  // draw lines to k closest dots
+  drawKNearestLines(k, array, mouseX, mouseY) {
+    array.sort((dotA, dotB) => {
+      let xA = Math.abs(dotA.x - mouseX);
+      let yA = Math.abs(dotA.y - mouseY);
+      let xB = Math.abs(dotB.x - mouseX);
+      let yB = Math.abs(dotB.y - mouseY);
+
+      // if sqrt(a) > sqrt(b) then a > b for a, b >= 0
+      // so don't need entire calculation for distance between points
+      if ((xA*xA + yA*yA) > (xB*xB + yB*yB)) {
+        return 1;
+      } 
+      if ((xA*xA + yA*yA) < (xB*xB + yB*yB)) {
+        return -1;
+      }
+      return 0;
+    });
+    // array of dots to draw
+    let drawArray = array.slice(0, k);
+    console.log(drawArray);
+
+    // draw the lines
+    this.lineContext.lineWidth = 2;
+    for (let i = 0; i < drawArray.length; i++) {
+      this.lineContext.strokeStyle = drawArray[i].color;
+      this.lineContext.moveTo(mouseX, mouseY);
+      this.lineContext.lineTo(drawArray[i].x, drawArray[i].y);
+    }
+    this.lineContext.stroke();
+  }
+
+  drawCircleIndicator() {
+
   }
 
   drawGrid() {
     // draw grid lines
-    context.strokeStyle = 'grey';
-    context.lineWidth = 1;
+    this.dotContext.strokeStyle = 'grey';
+    this.dotContext.lineWidth = 1;
     for (let i = 0; i <= this.canvas.width; i += 100) {
-      context.moveTo(i, 0);
-      context.lineTo(i, this.canvas.height);
+      this.dotContext.moveTo(i, 0);
+      this.dotContext.lineTo(i, this.canvas.height);
     }
     for (let i = 0; i <= this.canvas.height; i += 100) {
-      context.moveTo(0, i);
-      context.lineTo(this.canvas.width, i);
+      this.dotContext.moveTo(0, i);
+      this.dotContext.lineTo(this.canvas.width, i);
     }
-    context.stroke();
+    this.dotContext.stroke();
   }
 
 }

@@ -21,6 +21,7 @@ class Drawer {
 
   // draw lines to k closest dots
   drawKNearestLines(k, array, mouseX, mouseY) {
+    // sort the dots from closest to furthest
     array.sort((dotA, dotB) => {
       let xA = Math.abs(dotA.x - mouseX);
       let yA = Math.abs(dotA.y - mouseY);
@@ -39,7 +40,7 @@ class Drawer {
     });
     // array of dots to draw
     let drawArray = array.slice(0, k);
-    console.log(drawArray);
+    // console.log(drawArray);
 
     // draw the lines
     this.lineContext.clearRect(0, 0, this.lineCanvas.width, this.lineCanvas.height);
@@ -60,15 +61,15 @@ class Drawer {
 
   drawGrid() {
     // draw grid lines
-    this.dotContext.strokeStyle = 'grey';
+    this.dotContext.strokeStyle = 'lightgrey';
     this.dotContext.lineWidth = 1;
-    for (let i = 0; i <= this.canvas.width; i += 100) {
+    for (let i = 0; i <= this.dotCanvas.width; i += 100) {
       this.dotContext.moveTo(i, 0);
-      this.dotContext.lineTo(i, this.canvas.height);
+      this.dotContext.lineTo(i, this.dotCanvas.height);
     }
-    for (let i = 0; i <= this.canvas.height; i += 100) {
+    for (let i = 0; i <= this.dotCanvas.height; i += 100) {
       this.dotContext.moveTo(0, i);
-      this.dotContext.lineTo(this.canvas.width, i);
+      this.dotContext.lineTo(this.dotCanvas.width, i);
     }
     this.dotContext.stroke();
   }

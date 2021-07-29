@@ -17,10 +17,25 @@ class DotGenerator {
         }
     }
   
-    generateCoordinatesFromFile() {
-
+    generateCoordinatesFromFile(file) {
+        let fileReader = new FileReader(file);
+        let csvString = fileReader.result;
+        let array = this.csvStringToArray(csvString);
+        console.log(array);
     }
   
+    csvStringToArray(strData) {
+        const objPattern = new RegExp(("(\\,|\\r?\\n|\\r|^)(?:\"([^\"]*(?:\"\"[^\"]*)*)\"|([^\\,\\r\\n]*))"),"gi");
+        let arrMatches = null, arrData = [[]];
+        while (arrMatches = objPattern.exec(strData)){
+            if (arrMatches[1].length && arrMatches[1] !== ",")arrData.push([]);
+            arrData[arrData.length - 1].push(arrMatches[2] ? 
+                arrMatches[2].replace(new RegExp( "\"\"", "g" ), "\"") :
+                arrMatches[3]);
+        }
+        return arrData;
+    }
+
     // normalize values in the data to fit between 0 and 1
     normalizeData(array) {
         // find max and min in data

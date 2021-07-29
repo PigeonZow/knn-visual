@@ -22,3 +22,11 @@ canvas {
 #line-canvas {
   z-index: 1;
 }
+
+#fileInput {
+  bottom: 0;
+  left: 0;
+  position: absolute;
+  z-index: 2;
+  width: 100%;
+}
